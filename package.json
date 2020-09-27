@@ -11,7 +11,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "start": "node index.js"
+    "start": "NODE_PATH=. node index.js"
   },
   "author": "",
   "license": "MIT"
