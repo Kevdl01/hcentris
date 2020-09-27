@@ -1,6 +1,7 @@
-const fs = require('fs')
 const rp = require('request-promise');
-const $ = require('cheerio')
+const $ = require('cheerio');
+
+const { createJSON } = require('./utils');
 
 const detailinfo = function(url) {
     rp(url).then(function(html) {
@@ -31,9 +32,7 @@ const detailinfo = function(url) {
             }
         }
 
-        fs.writeFile(`./data/${uuid}.json`, JSON.stringify(json), function(err) {
-            if (err) throw err;
-        });
+        createJSON(`./data/${uuid}.json`, json)
         
     })
 }
