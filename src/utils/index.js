@@ -13,7 +13,7 @@ const createDir = function(dir) {
     }
 }
 
-exports.concatenateJSON = function(dir) {
+exports.concatenateJSON = function(dir, jsonFileName) {
     createDir(path.resolve(process.env.NODE_PATH) + '/dist')
     let content = []
     const files = fs.readdirSync(dir)
@@ -23,7 +23,7 @@ exports.concatenateJSON = function(dir) {
     files.forEach(file => {
         fs.readFile(`${file}`, 'utf-8', function(err, data) {
             content.push(data)
-            fs.writeFileSync(path.resolve(process.env.NODE_PATH) + '/dist/final.json', JSON.stringify(content));
+            fs.writeFileSync(path.resolve(process.env.NODE_PATH) + `/dist/${jsonFileName}.json`, JSON.stringify(content));
         })
     })
 }

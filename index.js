@@ -6,4 +6,5 @@ const url = `${baseUrl}/en/houses~for-sale~montreal-island?uc=1&view=Thumbnail`
 
 fetchListing(url, baseUrl) 
 
-concatenateJSON('./data')
+concatenateJSON('./data', 'properties')
+
