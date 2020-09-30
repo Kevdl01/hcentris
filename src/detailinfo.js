@@ -22,8 +22,8 @@ const detailinfo = function(url) {
             address: address,
             price: price,
             rooms: rooms,
-            bedrooms: bedrooms,
-            bathrooms: (bathrooms !== null) ? bathrooms : null,
+            bedrooms: (bedrooms === null) ? 0 : bedrooms,
+            bathrooms: (bathrooms === null) ? 0 : bathrooms,
             lotArea: lotArea,
             year: year,
             location: {
