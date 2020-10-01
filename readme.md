@@ -2,6 +2,12 @@
 
 ## Instructions
 
+To build the image run 
+
+```
+docker build -t scraper/scraper:latest -f docker/Dockerfile . 
+```
+
 Installation
 
 ```
