@@ -33,6 +33,6 @@ exports.concatenateJSON = (dir, jsonFileName) => {
                 })
 
                 return resolve({ 'files': files })
-        }, 8000)
+        }, 1000)
     })
 }
