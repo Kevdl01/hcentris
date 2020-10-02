@@ -1,3 +1,5 @@
+const process = require('process')
+
 const $ = require('cheerio')
 const puppeteer = require('puppeteer')
 
@@ -14,7 +16,11 @@ async function boot() {
       await page.goto('https://www.centris.ca/en/houses~for-sale~montreal-island?uc=1&view=Thumbnail', { waitUntil: 'domcontentloaded' })
       const render = await page.content()
 
-      return { render, page, browser }
+      const url = await page.evaluate(() => {
+        return { baseUrl: document.location.origin }
+      })
+
+      return { render, page, browser, url }
   } catch(e) {
       console.log(e)
   }
@@ -24,14 +30,14 @@ async function start() {
   return await boot()
 }
 
-const fetchListing = function(url, baseUrl) {
-  Promise.resolve(start()).then(function(html) {
-    const page = html['render']
-    const dom = html['page']
-    const browser = html['browser']
+const fetchListing = function() {
+  Promise.resolve(start()).then(function(res) {
+    const html = res['render']
+    const page = res['page']
+    const browser = res['browser']
 
     const properties = []
-    const links = $('#divMainResult > .thumbnailItem > .shell > a.a-more-detail', page)
+    const links = $('#divMainResult > .thumbnailItem > .shell > a.a-more-detail', html)
     
     try { 
         for (let i = 1; i <= links.length; i++) {
@@ -44,12 +50,16 @@ const fetchListing = function(url, baseUrl) {
         }
     } catch(e) { console.log(e) }
 
-    properties.map(function(uri) {
-      console.log(uri)
+    const baseUrl = res['url']['baseUrl']
+
+    properties.forEach(uri => {
+      console.log(`${baseUrl}${uri}`)
       // detailinfo(`${baseUrl}${uri}`)
     })
 
-    Promise.resolve(browser.close()).then(() => console.log('browser closed'))
+    Promise.resolve(browser.close())
+      .then(() => console.log('browser closed'))
+      .catch(e => console.log('error', e))
   }, function(err) {
     console.log(err)
   })
